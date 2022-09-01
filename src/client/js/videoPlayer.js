@@ -72,8 +72,10 @@ const handleVolumeChange = (event) => {
 };
 
 const handleLoadedMetadata = () => {
-  totalTime.innerText = formatTime(Math.floor(video.duration)); //span에 표시
-  timeline.max = Math.floor(video.duration); //range에 표시
+  if (!isNaN(video.duration)) {
+    totalTime.innerText = formatTime(Math.floor(video.duration)); //span에 표시
+    timeline.max = Math.floor(video.duration); //range에 표시
+  }
 };
 
 const handleTimeUpdate = () => {
@@ -137,7 +139,8 @@ const handleEnded = () => {
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange); //change = 마우스를 놓있을 때에만 결과값 표시
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
+video.addEventListener("canplay", handleLoadedMetadata);
+handleLoadedMetadata();
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("ended", handleEnded);
 timeline.addEventListener("input", handleTimelineChange);
