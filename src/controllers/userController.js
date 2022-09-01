@@ -161,7 +161,7 @@ export const postEdit = async (req, res) => {
     _id,
     {
       //로그인 후 session을 변경하지 얺기 때문에 DB가 업데이트되어도 user 정보가 바뀌지 않음(session 업데이트 통해 해결)
-      avatarUrl: file ? file.path : avatarUrl, //변경된 파일 존재하지 않으면 기존 avatarUrl을 사용(파일 바뀌지 않으면 file.path 사용 불가) DB에는 파일 절대 저장하지 않음, 위치만
+      avatarUrl: file ? file.location : avatarUrl, //변경된 파일 존재하지 않으면 기존 avatarUrl을 사용(파일 바뀌지 않으면 file.path 사용 불가) DB에는 파일 절대 저장하지 않음, 위치만
       name,
       email,
       username,
