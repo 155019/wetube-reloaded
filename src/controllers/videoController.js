@@ -68,12 +68,13 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { video, thumb } = req.files; //ES6
   const { title, description, hashtags } = req.body;
+  const isHeroku = process.env.NODE_ENV === "production";
   try {
     const newVideo = await Video.create({
       title,
       description,
-      fileUrl: video[0].location,
-      thumbUrl: thumb[0].location,
+      fileUrl: isHeroku ? video[0].location : video[0].path,
+      thumbUrl: isHeroku ? thumb[0].location : thumb[0].path,
       owner: _id, //video owner로 req.session.user를 할당할 것임을 의미
       hashtags: Video.formatHashtags(hashtags),
     });
