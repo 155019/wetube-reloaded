@@ -16,21 +16,13 @@ const isHeroku = process.env.NODE_ENV === "production";
 const s3ImageUploader = multerS3({
   s3: s3,
   bucket: "wetubereloaded2",
-  Condition: {
-    StringEquals: {
-      "s3:x-amz-acl": ["public-read"],
-    },
-  },
+  acl: "public-read",
 });
 
 const s3VideoUploader = multerS3({
   s3: s3,
   bucket: "wetubereloaded2",
-  Condition: {
-    StringEquals: {
-      "s3:x-amz-acl": ["public-read"],
-    },
-  },
+  acl: "public-read",
 });
 
 export const localsMiddleware = (req, res, next) => {
