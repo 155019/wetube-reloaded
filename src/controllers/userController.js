@@ -65,7 +65,10 @@ export const postLogin = async (req, res) => {
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
   const config = {
-    client_id: process.env.GH_CLIENT,
+    client_id:
+      process.env.NODE_ENV === "production"
+        ? process.env.GH_CLIENT_DEPLOY
+        : process.env.GH_CLIENT_DEV,
     allow_signup: false,
     scope: "read:user user:email",
   };
@@ -77,8 +80,14 @@ export const startGithubLogin = (req, res) => {
 export const finishGithubLogin = async (req, res) => {
   const baseUrl = "https://github.com/login/oauth/access_token";
   const config = {
-    client_id: process.env.GH_CLIENT,
-    client_secret: process.env.GH_SECRET, //백엔드에만 존재하므로 반드시 .env 파일에 작성
+    client_id:
+      process.env.NODE_ENV === "production"
+        ? process.env.GH_CLIENT_DEPLOY
+        : process.env.GH_CLIENT_DEV,
+    client_secret:
+      process.env.NODE_ENV === "production"
+        ? process.env.GH_SECRET_DEPLOY
+        : process.env.GH_SECRET_DEV, //백엔드에만 존재하므로 반드시 .env 파일에 작성
     code: req.query.code, //요청 url에 있음
   };
   const params = new URLSearchParams(config).toString();
