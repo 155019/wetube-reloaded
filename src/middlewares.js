@@ -14,19 +14,15 @@ const s3 = new S3Client({
 const isHeroku = process.env.NODE_ENV === "production";
 
 const s3ImageUploader = multerS3({
-  storage: multerS3({
-    s3: s3,
-    bucket: "wetubereloaded1/images",
-    acl: "public-read",
-  }),
+  s3: s3,
+  bucket: "wetubereloaded1/images",
+  acl: "public-read",
 });
 
 const s3VideoUploader = multerS3({
-  storage: multerS3({
-    s3: s3,
-    bucket: "wetubereloaded1/videos",
-    acl: "public-read",
-  }),
+  s3: s3,
+  bucket: "wetubereloaded1/videos",
+  acl: "public-read",
 });
 
 export const localsMiddleware = (req, res, next) => {
