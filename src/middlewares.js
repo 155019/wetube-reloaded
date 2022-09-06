@@ -1,8 +1,10 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
+import { S3Client } from "@aws-sdk/client-s3";
 import aws from "aws-sdk";
 
-const s3 = new aws.S3({
+const s3 = new S3Client({
+  region: "ap-northeast-2",
   credentials: {
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
@@ -11,7 +13,7 @@ const s3 = new aws.S3({
 
 const isHeroku = process.env.NODE_ENV === "production";
 
-const s3ImageUploader = multer({
+const s3ImageUploader = multerS3({
   storage: multerS3({
     s3: s3,
     bucket: "wetubereloaded1/images",
@@ -19,7 +21,7 @@ const s3ImageUploader = multer({
   }),
 });
 
-const s3VideoUploader = multer({
+const s3VideoUploader = multerS3({
   storage: multerS3({
     s3: s3,
     bucket: "wetubereloaded1/videos",
