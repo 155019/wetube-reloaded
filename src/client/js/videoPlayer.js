@@ -1,16 +1,20 @@
 const { disconnect } = require("mongoose");
 
 const video = document.querySelector("video");
+
 const playBtn = document.getElementById("play");
 const playBtnIcon = playBtn.querySelector("i");
+
 const muteBtn = document.getElementById("mute");
 const muteBtnIcon = muteBtn.querySelector("i");
+
 const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
+
 const fullScreenBtn = document.getElementById("fullScreen");
-const fullScreenIcon = fullScreen.querySelector("i");
+const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 

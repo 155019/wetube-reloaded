@@ -150,30 +150,40 @@ export const createComment = async (req, res) => {
     owner: user._id, //type: mongoose.Schema.Types.ObjectId
     video: id,
   });
-  await video.comments.push(comment._id); //새로 만들어진 comment의 _id
-  await video.save();
-  return res.status(201).json({ newCommentId: comment._id }); //Created, json으로 프론트엔드애 정보 보냄
+  video.comments.push(comment._id); //새로 만들어진 comment의 _id
+  video.save();
+
+  const owner = await User.findById(user._id);
+  owner.comments.push(comment._id);
+  owner.save();
+
+  return res
+    .status(201)
+    .json({ name: owner.name, createdAt: comment.createdAt, id: comment._id });
 };
 
 export const deleteComment = async (req, res) => {
   const {
+    params: { id },
     session: {
       user: { _id },
     },
-    params: { commentId },
   } = req;
-  const comment = await Comment.findById(commentId).populate("owner");
-  const videoId = comment.video;
+  const comment = await Comment.findById(id);
+  const user = await User.findById(_id);
+  const video = await Video.findById(comment.video);
+  if (!comment) {
+    return res.status(400).render("404", { pageTitle: "댓글이 없습니다." });
+  }
   if (String(comment.owner._id) !== String(_id)) {
     return res.sendStatus(404);
   }
-  const video = await Video.findById(videoId);
-  if (!video) {
-    return res.sendStatus(404);
-  }
-  video.comments.splice(video.comments.indexOf(commentId), 1);
-  await video.save();
-  await Comment.findByIdAndDelete(commentId);
+  await Comment.findByIdAndDelete(id);
+  user.comments.splice(user.comments.indexOf(id), 1);
+  user.save();
 
-  return res.sendStatus(200);
+  video.comments.splice(video.comments.indexOf(id), 1);
+  video.save();
+
+  return res.redirect(`/videos/${video._id}`);
 };

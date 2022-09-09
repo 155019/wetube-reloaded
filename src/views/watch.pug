@@ -1,4 +1,5 @@
 extends base.pug
+include mixins/comment
 
 block content
     div#videoContainer(data-id=video._id)
@@ -44,23 +45,20 @@ block content
 
     
     if loggedIn
-        div.video__add-comments
-            form.video__comment-form#commentForm
+        div.video__add-comment
+            form.video__add-comment-form#commentForm
                 textarea(cols="30", rows="10", placeholder="댓글 추가...")
                 button 입력
 
     div.video__comments
-        p 댓글
-            ul
-                each comment in video.comments.reverse()
-                    li.video__comment(data-id=comment._id)
-                        img(src=loggedInUser.avatarUrl)
-                        div.video__comment-data
-                            div
-                                p.video__comment-user=loggedInUser.name
-                                p.video__comment-comment=comment.text
-                            if String(comment.owner._id)===String(loggedInUser._id)
-                                span.video__comment-delete#deleteCommentBtn 삭제
+        h3 댓글
+        ul
+            each comment in video.comments.reverse()
+                li.video__comment(data-id=comment._id)
+                    +comment(comment)
+            else
+                span.empty__message 댓글이 없습니다.
+
 
 block scripts
     script(src="/static/js/videoPlayer.js")

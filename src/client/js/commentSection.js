@@ -1,30 +1,61 @@
+import { Discovery } from "aws-sdk";
+
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 
-const deleteCommentAll = document.querySelectorAll(".video__comment-delete");
-
-const addComment = (text, id) => {
+const addComment = (text, name, createdAt, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
-  newComment.dataset.id = id;
   newComment.className = "video__comment";
-  const icon = document.createElement("i");
-  icon.className = "fas fa-comment";
-  const span = document.createElement("span");
-  span.innerText = `${text}`;
-  const span2 = document.createElement("span");
-  span2.innerText = "x";
-  span2.className = "video__comment-delete";
-  newComment.appendChild(icon);
-  newComment.appendChild(span);
-  newComment.appendChild(span2);
-  videoComments.prepend(newComment);
-};
 
-const deleteComment = (e) => {
-  const commentContainer = document.querySelector(".video__comments ul");
-  const commentList = e.target.parentNode;
-  commentContainer.removeChild(commentList);
+  const commentContainer = document.createElement("div");
+  commentContainer.className = "video__comment-container";
+  newComment.appendChild(commentContainer);
+
+  const commentAvatar = document.createElement("div");
+  commentAvatar.className = "video__comment-avatar";
+  commentContainer.appendChild(commentAvatar);
+
+  const commentData = document.createElement("div");
+  commentData.className = "video__comment-data";
+  commentContainer.appendChild(commentData);
+
+  const commentHeader = document.createElement("div");
+  commentHeader.className = "video__comment-header";
+  commentData.appendChild(commentHeader);
+
+  const avatarName = document.createElement("span");
+  avatarName.innerText = name;
+  commentHeader.appendChild(avatarName);
+
+  const commentCreated = document.createElement("span");
+  const commentDate = new Date(createdAt);
+  commentCreated.innerText = `${commentDate.getFullYear()}. ${commentDate.getMonth()}. ${commentDate.getDate()}`;
+  commentHeader.appendChild(commentCreated);
+
+  const commentText = document.createElement("div");
+  commentText.className = "video__comment-text";
+  commentData.appendChild(commentText);
+
+  const loginAvatar = document.querySelector(".header__avatar");
+  const img = document.createElement("img");
+  img.src = loginAvatar.src;
+  commentAvatar.appendChild(img);
+
+  const p = document.createElement("p");
+  p.innerText = text;
+  commentText.appendChild(p);
+
+  const commentDelete = document.createElement("div");
+  commentDelete.className = "video__comment-delete";
+  const a = document.createElement("a");
+  a.className = "delete-btn";
+  a.href = `/api/comments/${id}/delete`;
+  a.innerText = "삭제";
+  commentDelete.appendChild(a);
+  commentData.appendChild(commentDelete);
+
+  videoComments.prepend(newComment);
 };
 
 const handleSubmit = async (e) => {
@@ -40,31 +71,12 @@ const handleSubmit = async (e) => {
     headers: { "Content-Type": "application/json" }, //headers는 request의 정보를 담고 있음, express에게 JS 오브젝트 데이터를 보내고 있음을 알려 줌
     body: JSON.stringify({ text }), //textarea.value, 백엔드가 string을 받아 JS 오브젝트로 변환, req.body로 해당 데이터를 보내도록 server.js에 미들웨어 추가(app.use(express.json()))
   });
+  textarea.value = ""; //데이터를 보낸 후 비워줌
   if (response.status === 201) {
-    textarea.value = ""; //데이터를 보낸 후 비워줌
-    const { newCommentId } = await response.json();
-    addComment(text, newCommentId);
-    deleteComment = document.getElementById("delete__comment");
-    deleteComment.removeEventListener("click", handleDelete);
-    deleteComment.addEventListener("click", handleDelete);
+    const newCommentData = await response.json();
+    const { name, createdAt, id } = newCommentData;
+    addComment(text, name, createdAt, id);
   }
 };
 
-if (form) {
-  form.addEventListener("submit", handleSubmit);
-}
-
-const handleDelete = async (e) => {
-  const commentList = e.target.parentNode;
-  const commentId = commentList.dataset.id;
-  await fetch(`/api/comments/${commentId}/delete`, {
-    method: "DELETE",
-  });
-  commentList.remove();
-};
-
-if (deleteCommentAll) {
-  deleteCommentAll.forEach((deleteComment) => {
-    deleteComment.addEventListener("click", handleDelete);
-  });
-}
+form.addEventListener("submit", handleSubmit);

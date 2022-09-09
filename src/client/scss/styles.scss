@@ -56,14 +56,15 @@ main {
   right: 0;
   margin: 0 auto;
   max-width: 200px;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10000px;
   text-align: center;
   animation: goAway 0.5s ease-in-out forwards;
-  animation-delay: 5s;
+  animation-delay: 3s;
+  background-color: $blue;
+  color: white;
   &.error {
     background-color: $red;
-    color: white;
   }
 }
 
@@ -75,4 +76,5 @@ button {
   background-color: $blue;
   text-align: center;
   color: white;
+  cursor: pointer;
 }
