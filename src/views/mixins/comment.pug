@@ -7,11 +7,10 @@ mixin comment(comment)
                     img(src=comment.owner.avatarUrl, crossorigin)
             div.video__comment-data
                 div.video__comment-header
-                    span #{comment.name}
+                    span #{comment.owner.name}
                     span #{comment.createdAt.getFullYear()}. #{comment.createdAt.getMonth()}. #{comment.createdAt.getDate()}
                 div.video__comment-text
                     p #{comment.text}
-                div
             if String(comment.owner._id) === String(loggedInUser._id)
                 div.video__comment-delete
                     a(href=`/api/comments/${comment._id}/delete`).delete-btn 삭제

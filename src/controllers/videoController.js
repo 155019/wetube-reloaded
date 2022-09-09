@@ -1,6 +1,6 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import Comment from "../models/Comment";
+import Video from "../models/Video";
 
 export const home = async (req, res) => {
   const videos = await Video.find({})
@@ -137,9 +137,9 @@ export const registerView = async (req, res) => {
 
 export const createComment = async (req, res) => {
   const {
-    session: { user },
-    body: { text },
     params: { id },
+    body: { text },
+    session: { user },
   } = req;
   const video = await Video.findById(id);
   if (!video) {

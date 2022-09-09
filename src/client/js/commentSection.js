@@ -3,6 +3,8 @@ import { Discovery } from "aws-sdk";
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 
+const textarea = form.querySelector("textarea");
+
 const addComment = (text, name, createdAt, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
@@ -14,10 +16,9 @@ const addComment = (text, name, createdAt, id) => {
 
   const commentAvatar = document.createElement("div");
   commentAvatar.className = "video__comment-avatar";
-  commentContainer.appendChild(commentAvatar);
-
   const commentData = document.createElement("div");
   commentData.className = "video__comment-data";
+  commentContainer.appendChild(commentAvatar);
   commentContainer.appendChild(commentData);
 
   const commentHeader = document.createElement("div");
@@ -60,7 +61,6 @@ const addComment = (text, name, createdAt, id) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const textarea = form.querySelector("textarea");
   const text = textarea.value;
   const videoId = videoContainer.dataset.id;
   if (text === "") {

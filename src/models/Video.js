@@ -13,7 +13,6 @@ const videoSchema = new mongoose.Schema({
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: "Comment",
     },
   ],

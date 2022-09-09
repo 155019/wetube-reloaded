@@ -28,7 +28,7 @@ block content
         p.video__title=video.title
         div.video__meta
             span 조회수 #{video.meta.views}회 • 
-            span=new Date(video.createdAt).toISOString().substr(0,10)
+            span #{video.createdAt.getFullYear()}. #{video.createdAt.getMonth()}. #{video.createdAt.getDate()}
     div.video__owner
         div.video__owner-data
             a(href=`/users/${video.owner._id}`)
@@ -49,18 +49,15 @@ block content
             form.video__add-comment-form#commentForm
                 textarea(cols="30", rows="10", placeholder="댓글 추가...")
                 button 입력
-
     div.video__comments
         h3 댓글
         ul
             each comment in video.comments.reverse()
-                li.video__comment(data-id=comment._id)
+                li.video__comment
                     +comment(comment)
             else
                 span.empty__message 댓글이 없습니다.
-
-
 block scripts
     script(src="/static/js/videoPlayer.js")
-    if(loggedIn)
+    if loggedIn
         script(src="/static/js/commentSection.js")
