@@ -1,18 +1,25 @@
 header
-    a(href="/").header__logo
-        i.fab.fa-youtube
+    div.header__icon
+        button#asideBtn
+            i.fas.fa-bars
+        a(href="/").header__logo
+            i.fab.fa-youtube
     nav
         ul
             li
-                a(href="/search") 
-                    i.fas.fa-search
+                form(method="GET", action="/search").search__form
+                    input(placeholder="검색", name="keyword", type="text")
+                    button
+                        i.fas.fa-search
             if loggedIn
                 li
-                    a(href="/videos/upload") Upload Video
+                    a(href="/videos/upload")
+                        i.fas.fa-video
                 li
-                    a(href="/users/edit") Edit Profile
+                    a(href="/users/edit")
+                        i.fas.fa-user
                 li
-                    a(href="/users/logout") Log Out
+                    a(href="/users/logout") 로그아웃
                 li
                     a(href=`/users/${loggedInUser._id}`)
                         if loggedInUser.avatarUrl === ""
@@ -25,6 +32,7 @@ header
                                     img.header__avatar(src=loggedInUser.avatarUrl, crossorigin)
             else
                 li  
-                    a(href="/login") Login
+                    a(href="/login") 로그인
                 li
-                    a(href="/join").header__btn Join
+                    a(href="/join") 가입
+block scripts

@@ -1,0 +1,22 @@
+aside {
+  width: 120px;
+  height: 100vh;
+  position: fixed;
+  z-index: 1;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    i {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.hidden {
+  display: none;
+}

@@ -1,28 +1,21 @@
 .search__form {
-  margin-bottom: 60px;
   display: flex;
   position: relative;
   align-items: center;
   input {
     all: unset;
-    padding: 15px 20px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: black;
-    margin-bottom: 5px;
-    font-size: 16px;
-    color: white;
-    width: 90%;
-  }
-  button {
-    all: unset;
+    width: 500px;
+    height: 25px;
+    padding: 10px;
+    border: 1px solid rgba($color: black, $alpha: 0.15);
+    font-size: 15px;
   }
   button {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 18px;
-    background-color: rgba(0, 0, 0, 0);
+    top: 7px;
+    right: -5px;
+    color: rgba($color: black, $alpha: 0.5);
+    background: none;
     text-align: center;
     cursor: pointer;
   }

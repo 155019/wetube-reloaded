@@ -1,9 +1,10 @@
 .social-login {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 30px;
-  margin-top: 30px;
+  border-top: 1px solid rgba($color: black, $alpha: 0.15);
+  padding-top: 25px;
+  margin-top: 25px;
   .social__btn--github {
-    background-color: transparent;
-    color: azure;
+    display: block;
+    text-align: center !important;
+    color: rgba($color: black, $alpha: 0.5);
   }
 }

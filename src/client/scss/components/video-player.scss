@@ -7,15 +7,16 @@
   .videoControls {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    color: white;
     &.showing {
       opacity: 1;
     }
     box-sizing: border-box;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 5px;
     position: absolute;
     bottom: 10px;
-    width: 95%;
+    width: 100%;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -23,7 +24,7 @@
     grid-template-columns: 1fr 4fr 1fr auto;
     gap: 10px;
     justify-content: space-between;
-    background-color: #0f1117;
+    background-color: rgba($color: black, $alpha: 0.15);
     padding: 10px;
     .videoControls__play {
       display: flex;

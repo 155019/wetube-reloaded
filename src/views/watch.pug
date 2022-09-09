@@ -21,30 +21,46 @@ block content
                     i.fas.fa-expand
     
     div.video__data
+        div.video__hashtags
+            each hashtag in video.hashtags
+                span=hashtag
         p.video__title=video.title
-        small.video__owner Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
-        small.video__createdAt=new Date(video.createdAt).toLocaleDateString("ko-kr", {weekday: 'long', year:'numeric', month:'long', day:'numeric'})
-        =video.createdAt
-        if String(video.owner._id)===String(loggedInUser._id)
-            a(href=`${video.id}/edit`) Edit Video &rarr;
-            br
-            a(href=`${video.id}/delete`) Delete Video &rarr;
+        div.video__meta
+            span 조회수 #{video.meta.views}회 • 
+            span=new Date(video.createdAt).toISOString().substr(0,10)
+    div.video__owner
+        div.video__owner-data
+            a(href=`/users/${video.owner._id}`)
+                img.video__owner-avatar(src=video.owner.avatarUrl, crossorigin)
+                span=video.owner.name
+        div.video__owner-plus
+            if String(video.owner._id)===String(loggedInUser._id)
+                a(href=`${video.id}/edit`)
+                    button 수정
+                a(href=`${video.id}/delete`)
+                    button 삭제
+            else
+                button#subscribeBtn 구독
+
     
     if loggedIn
         div.video__add-comments
             form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="Write a comment...")
-                button Add Comment
+                textarea(cols="30", rows="10", placeholder="댓글 추가...")
+                button 입력
 
     div.video__comments
-        ul
-            each comment in video.comments.reverse()
-                li.video__comment(data-id=comment._id)
-                    i.fas.fa-comment
-                    span #{comment.text}
-                    if String(comment.owner._id)===String(loggedInUser._id)
-                        span.video__comment-delete#deleteCommentBtn x
+        p 댓글
+            ul
+                each comment in video.comments.reverse()
+                    li.video__comment(data-id=comment._id)
+                        img(src=loggedInUser.avatarUrl)
+                        div.video__comment-data
+                            div
+                                p.video__comment-user=loggedInUser.name
+                                p.video__comment-comment=comment.text
+                            if String(comment.owner._id)===String(loggedInUser._id)
+                                span.video__comment-delete#deleteCommentBtn 삭제
 
 block scripts
     script(src="/static/js/videoPlayer.js")

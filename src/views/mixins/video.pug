@@ -4,5 +4,6 @@ mixin video(video)
         div.video-mixin__data
             span.video-mixin__title=video.title
             div.video-mixin__meta
-                span #{video.owner.name} • 
-                span #{video.meta.views} 회
+                p=video.owner.name
+                span 조회수 #{video.meta.views}회 • 
+                span=new Date(video.createdAt).toISOString().substr(0,10)

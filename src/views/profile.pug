@@ -7,9 +7,11 @@ block content
             img(src=user.avatarUrl, crossorigin).avatar
         else
             img(src=user.avatarUrl, crossorigin).avatar
-            h3=user.name
+            span=user.name
     div.video-grid
         each video in user.videos
             +video(video)
         else
-            span.empty__message No videos found
+            span.empty__message 비디오가 없습니다.
+block scripts
+    

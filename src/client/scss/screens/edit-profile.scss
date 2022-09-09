@@ -1,6 +1,6 @@
 form {
   label {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 10px;
     display: block;
   }
@@ -9,7 +9,5 @@ form {
 .edit-profile__password {
   margin-top: 50px;
   text-align: center;
-  a {
-    text-decoration: underline;
-  }
+  color: $blue;
 }

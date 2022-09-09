@@ -3,21 +3,21 @@ import fetch from "cross-fetch"; //npm i node-fetch 작동하지 않음
 import bcrypt from "bcrypt";
 import { token } from "morgan";
 
-export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
+export const getJoin = (req, res) => res.render("join", { pageTitle: "가입" });
 export const postJoin = async (req, res) => {
   const { name, username, email, password, password2, location } = req.body;
-  const pageTitle = "Join";
+  const pageTitle = "가입";
   if (password !== password2) {
     return res.status(400).render("join", {
       pageTitle,
-      errorMessage: "Password confirmation does not match.",
+      errorMessage: "비밀번호가 일치하지 않습니다.",
     });
   }
   const exists = await User.exists({ $or: [{ username }, { email }] });
   if (exists) {
     return res.status(400).render("join", {
       pageTitle,
-      errorMessage: "This username/email is already taken.",
+      errorMessage: "이미 사용 중인 사용자 이름 또는 이메일입니다.",
     });
   }
   try {
@@ -31,30 +31,30 @@ export const postJoin = async (req, res) => {
     return res.redirect("/login");
   } catch (error) {
     return res.status(400).render("join", {
-      pageTitle: "Join",
+      pageTitle: "가입",
       errorMessage: error._message,
     });
   }
 };
 
 export const getLogin = (req, res) =>
-  res.render("login", { pageTitle: "Login" });
+  res.render("login", { pageTitle: "로그인" });
 
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
-  const pageTitle = "Login";
+  const pageTitle = "로그인";
   const user = await User.findOne({ username, socialOnly: false });
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
-      errorMessage: "An account with this username does not exist.",
+      errorMessage: "계정이 존재하지 않습니다.",
     });
   }
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return res.status(400).render("login", {
       pageTitle,
-      errorMessage: "Wrong password",
+      errorMessage: "비밀번호가 일치하지 않습니다.",
     });
   }
   req.session.loggedIn = true; //req.session 오브젝트에 임의로 정보 저장
@@ -156,7 +156,7 @@ export const logout = (req, res) => {
 };
 
 export const getEdit = (req, res) => {
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  return res.render("edit-profile", { pageTitle: "프로필 수정" });
 };
 export const postEdit = async (req, res) => {
   const {
@@ -185,10 +185,10 @@ export const postEdit = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
-    req.flash("error", "Can't change password");
+    req.flash("error", "비밀번호를 변경할 수 없습니다.");
     return res.redirect("/");
   }
-  return res.render("change-password", { pageTitle: "Change Password" });
+  return res.render("change-password", { pageTitle: "비밀번호 변경" });
 };
 export const postChangePassword = async (req, res) => {
   const {
@@ -202,19 +202,19 @@ export const postChangePassword = async (req, res) => {
   if (!ok) {
     //기존 비밀번호가 정확한지
     return res.status(400).render("change-password", {
-      pageTitle: "Change Password",
-      errorMessage: "The current password is incorrect",
+      pageTitle: "비밀번호 변경",
+      errorMessage: "비밀번호가 일치하지 않습니다.",
     });
   }
   if (newPassword !== newPasswordConfirmation) {
     return res.status(400).render("change-password", {
-      pageTitle: "Change Password",
-      errorMessage: "The password does not match the confirmation",
+      pageTitle: "비밀번호 변경",
+      errorMessage: "비밀번호가 일치하지 않습니다.",
     });
   }
   user.password = newPassword; //세션 업데이트(updatedUser와 동일)
   await user.save(); //userSchema.pre("save") 작동하려면 create 또는 save 필요하므로(새로운 password 해싱, promise이므로 await)
-  req.flash("info", "Password updated");
+  req.flash("info", "비밀번호가 변경되었습니다.");
   return res.redirect("/users/logout");
 };
 
@@ -228,7 +228,9 @@ export const see = async (req, res) => {
     },
   });
   if (!user) {
-    return res.status(404).render("404", { pageTitle: "User not found" });
+    return res
+      .status(404)
+      .render("404", { pageTitle: "사용자를 찾을 수 없습니다." });
   }
   //const videos = await Video.find({ owner: user._id }); 특정 사용자가 업로드한 영상(owner의 id와 params의 id가 같은 경우)
   return res.render("profile", { pageTitle: user.name, user });
