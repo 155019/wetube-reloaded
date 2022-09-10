@@ -8,12 +8,6 @@ const textarea = form.querySelector("textarea");
 const addComment = (text, name, createdAt, id) => {
   const videoComments = document.querySelector(".video__comments ul");
 
-  const firstChild = videoComments.childNodes[0];
-
-  if (firstChild.className === "empty__message") {
-    videoComments.removeChild(firstChild);
-  }
-
   const newComment = document.createElement("li");
   newComment.className = "video__comment";
 
@@ -33,6 +27,7 @@ const addComment = (text, name, createdAt, id) => {
   commentData.appendChild(commentHeader);
 
   const avatarName = document.createElement("span");
+  avatarName.className = "video__comment-owner";
   avatarName.innerText = name;
   commentHeader.appendChild(avatarName);
 

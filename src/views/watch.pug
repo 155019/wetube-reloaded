@@ -52,7 +52,7 @@ block content
     div.video__comments
         h3 댓글
         ul
-            each comment in video.comments.reverse()
+            each comment in comments.reverse()
                 li.video__comment
                     +comment(comment)
             else
