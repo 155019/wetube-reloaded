@@ -7,6 +7,13 @@ const textarea = form.querySelector("textarea");
 
 const addComment = (text, name, createdAt, id) => {
   const videoComments = document.querySelector(".video__comments ul");
+
+  const firstChild = videoComments.childNodes[0];
+
+  if (firstChild.className === "empty__message") {
+    videoComments.removeChild(firstChild);
+  }
+
   const newComment = document.createElement("li");
   newComment.className = "video__comment";
 
@@ -49,10 +56,14 @@ const addComment = (text, name, createdAt, id) => {
 
   const commentDelete = document.createElement("div");
   commentDelete.className = "video__comment-delete";
+  const editSpan = document.createElement("span");
+  editSpan.className = "edit-btn";
+  editSpan.innerText = "수정";
   const a = document.createElement("a");
   a.className = "delete-btn";
   a.href = `/api/comments/${id}/delete`;
   a.innerText = "삭제";
+  commentDelete.appendChild(editSpan);
   commentDelete.appendChild(a);
   commentData.appendChild(commentDelete);
 

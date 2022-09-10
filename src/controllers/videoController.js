@@ -5,24 +5,33 @@ import Video from "../models/Video";
 export const home = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
-    .populate("owner");
+    .populate("owner", "name");
   return res.render("home", { pageTitle: "홈", videos });
 };
 
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id);
+  const owner = await User.findById(video.owner);
+  const comments = await Comment.find({ video: id }).populate("owner");
   if (!video) {
     return res.render("404", { pageTitle: "비디오가 없습니다." });
   }
-  return res.render("watch", { pageTitle: video.title, video });
+  return res.render("watch", {
+    pageTitle: video.title,
+    video,
+    owner,
+    comments,
+  });
 };
 
 export const getEdit = async (req, res) => {
-  const { id } = req.params;
   const {
-    user: { _id },
-  } = req.session;
+    params: { id },
+    session: {
+      user: { _id },
+    },
+  } = req;
   const video = await Video.findById(id); //postEdit과 달리 exists() 쓰지 않음, video 오브젝트가 필요(edit 템플릿으로 보내주어야 함)
   if (!video) {
     return res.status(404).render("404", { pageTitle: "비디오가 없습니다." }); //return 작성하지 않으면 함수가 종료되지 않음

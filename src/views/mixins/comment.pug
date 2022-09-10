@@ -1,16 +1,14 @@
 mixin comment(comment)
     div.video__comment-container
-            div.video__comment-avatar 
-                if comment.owner.avatarUrl === ""
-                    span 😀
-                else
-                    img(src=comment.owner.avatarUrl, crossorigin)
+            div.video__comment-avatar
+                img(src=comment.owner.avatarUrl)
             div.video__comment-data
                 div.video__comment-header
                     span #{comment.owner.name}
                     span #{comment.createdAt.getFullYear()}. #{comment.createdAt.getMonth()}. #{comment.createdAt.getDate()}
                 div.video__comment-text
                     p #{comment.text}
-            if String(comment.owner._id) === String(loggedInUser._id)
-                div.video__comment-delete
-                    a(href=`/api/comments/${comment._id}/delete`).delete-btn 삭제
+                if String(comment.owner._id) === String(loggedInUser._id)
+                    div.video__comment-delete
+                        span.edit-btn 수정
+                        a(href=`/api/comments/${comment._id}/delete`).delete-btn 삭제

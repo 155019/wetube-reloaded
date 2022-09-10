@@ -96,10 +96,15 @@
           margin-right: 5px;
         }
       }
-    }
-    .video__comment-delete {
-      font-size: 12px;
-      cursor: pointer;
+      .video__comment-delete {
+        display: flex;
+        justify-content: end;
+        font-size: 12px;
+        cursor: pointer;
+        .edit-btn {
+          margin-right: 5px;
+        }
+      }
     }
   }
 }
