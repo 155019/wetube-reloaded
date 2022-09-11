@@ -5,7 +5,7 @@ mixin comment(comment)
         div.video__comment-data
             div.video__comment-header
                 span.video__comment-owner #{comment.owner.name}
-                span #{comment.createdAt.getFullYear()}. #{comment.createdAt.getMonth()}. #{comment.createdAt.getDate()}
+                span #{comment.createdAt.getFullYear()}. #{comment.createdAt.getMonth()+1}. #{comment.createdAt.getDate()}
             div.video__comment-text
                 p #{comment.text}
             if String(comment.owner._id) === String(loggedInUser._id)

@@ -28,7 +28,7 @@ block content
         p.video__title=video.title
         div.video__meta
             span 조회수 #{video.meta.views}회 • 
-            span #{video.createdAt.getFullYear()}. #{video.createdAt.getMonth()}. #{video.createdAt.getDate()}
+            span #{video.createdAt.getFullYear()}. #{video.createdAt.getMonth()+1}. #{video.createdAt.getDate()}
     div.video__owner
         div.video__owner-data
             a(href=`/users/${video.owner._id}`)

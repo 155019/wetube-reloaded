@@ -6,4 +6,4 @@ mixin video(video)
             div.video-mixin__meta
                 p=video.owner.name
                 span 조회수 #{video.meta.views}회 • 
-                span #{video.createdAt.getFullYear()}. #{video.createdAt.getMonth()}. #{video.createdAt.getDate()}
+                span #{video.createdAt.getFullYear()}. #{video.createdAt.getMonth()+1}. #{video.createdAt.getDate()}
